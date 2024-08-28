@@ -7,7 +7,7 @@ import { Box, ChakraProvider } from '@chakra-ui/react'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <ChakraProvider toastOptions={{ defaultOptions: { position: 'top-right', duration: 3000 } }}>
+    <ChakraProvider toastOptions={{ defaultOptions: { position: 'top-right', duration: 1000 } }}>
       <Box
         w="100vw"
         h="100vh"

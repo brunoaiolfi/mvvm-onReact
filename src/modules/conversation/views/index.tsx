@@ -72,8 +72,8 @@ export function ConversationView() {
                                 </Text>
                                 <Text
                                     fontSize="1rem"
+                                    dangerouslySetInnerHTML={{ __html: item.response.replace(/\n/g, "<br />") }}
                                 >
-                                    {item.response}
                                 </Text>
                             </Box>
                         </Box>
