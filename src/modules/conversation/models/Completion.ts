@@ -1,4 +1,5 @@
 export interface Completion {
     response: string,
-    message: string
+    message: string,
+    context: string[]
 }
