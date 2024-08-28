@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Completion } from "../models/Completion";
 import { CompletionRepository } from "../repositories/Completion";
-import { Spinner, IconButton, Box } from "@chakra-ui/react";
-import { CiPaperplane } from "react-icons/ci";
+import { useToast } from "@chakra-ui/react";
 
 export function conversationViewModel() {
+
+    const toast = useToast();
 
     const [isLoading, setIsLoading] = useState(false);
     const [message, setMessage] = useState("");
@@ -15,14 +16,20 @@ export function conversationViewModel() {
     async function handleSendMessage() {
         setIsLoading(true);
         try {
-            if (!message) return;
+            if (!message) return toast({
+                title: "Preencha a mensagem corretamente",
+                status: "info",
+            });
 
             const completion = await completionRepository.create(message);
             setCompletions(prev => [...prev, completion]);
             setMessage("");
 
-        } catch (error) {
-            console.log(error)
+        } catch (error: any) {
+            toast({
+                title: `Erro ao enviar a mensagem. ${error.message}`,
+                status: "error",
+            })
         } finally {
             setIsLoading(false);
         }
@@ -32,29 +39,12 @@ export function conversationViewModel() {
         setMessage(value);
     }
 
-    function onRenderButtonSubmit() {
-        return <IconButton
-            w="3.5rem"
-            h="3.5rem"
-            aria-label="Enviar"
-            colorScheme="blue"
-            icon={
-                isLoading ?
-                    <Spinner color="white" />
-                    :
-                    <CiPaperplane size={24} />
-            }
-            onClick={handleSendMessage}
-        />
-    }
-
     return {
         completions,
         message,
         handleSendMessage,
         handleChangeMessage,
-        isLoading,
-        onRenderButtonSubmit
+        isLoading
     }
 
 }

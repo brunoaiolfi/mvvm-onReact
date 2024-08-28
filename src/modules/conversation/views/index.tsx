@@ -1,12 +1,13 @@
-import { Avatar, Box, Input, Text } from "@chakra-ui/react";
+import { Box, IconButton, Input, Text } from "@chakra-ui/react";
 import { conversationViewModel } from "./viewModel";
+import { CiPaperplane } from "react-icons/ci";
 
 export function ConversationView() {
 
     const {
         completions,
         message,
-        onRenderButtonSubmit,
+        isLoading,
         handleChangeMessage,
         handleSendMessage
     } = conversationViewModel();
@@ -26,7 +27,7 @@ export function ConversationView() {
             <Box
                 w="100%"
                 h="calc(100% - 5rem)"
-                
+
                 overflow="auto"
                 overflowY="scroll"
                 overflowX="hidden"
@@ -45,11 +46,16 @@ export function ConversationView() {
                             <Box
                                 w="100%"
                                 padding="8px"
+                                textAlign="right"
                             >
                                 <Text
-                                    textAlign="right"
+                                    fontSize="1.25rem"
+                                    fontWeight={700}
+                                >
+                                    Você
+                                </Text>
+                                <Text
                                     fontSize="1rem"
-                                    fontWeight={600}
                                 >
                                     {item.message}
                                 </Text>
@@ -58,29 +64,14 @@ export function ConversationView() {
                                 w="100%"
                                 padding="8px"
                             >
-                                <Box
-                                    display="flex"
-                                    flexDirection="row"
-                                    alignItems="center"
-                                    gap="8px"
-                                    marginBottom={"12px"}
+                                <Text
+                                    fontSize="1.25rem"
+                                    fontWeight={700}
                                 >
-                                    <Avatar
-                                        w="24px"
-                                        h="24px"
-                                        name="ChatSGB"
-                                        src="https://avatars.githubusercontent.com/u/77445921?v=4"
-                                    />
-                                    <Text
-                                        fontSize="1.25rem"
-                                        fontWeight={600}
-                                    >
-                                        ChatSGB
-                                    </Text>
-                                </Box>
+                                    ChatSGB
+                                </Text>
                                 <Text
                                     fontSize="1rem"
-                                    fontWeight={600}
                                 >
                                     {item.response}
                                 </Text>
@@ -115,7 +106,15 @@ export function ConversationView() {
                     }}
                 />
 
-                {onRenderButtonSubmit()}
+                <IconButton
+                    isLoading={isLoading}
+                    w="3.5rem"
+                    h="3.5rem"
+                    aria-label="Enviar"
+                    colorScheme="blue"
+                    icon={<CiPaperplane size={24} />}
+                    onClick={handleSendMessage}
+                />
 
             </Box>
         </Box>
